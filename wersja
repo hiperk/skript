@@ -1,1 +1,309 @@
-0.3
+variables:
+	{tower::gracz::%player%::dolacz} = false
+options:
+	tag: &8&l[&3&lT&bower&l&3&lR&bivals&8&l]
+	times: 15
+	time out: 1800
+command /TowerRivals [<text>] [<text>] [<text>]:
+	aliases:tr,tower,rivals
+	trigger:
+		if arg 1 is not set:
+			send "&8&l&m==================[{@tag}&8&l&m]=================="
+			send "&3> &e/TowerRivals create [ID Areny] &8- &7Tworzenie areny TowerRivals"
+			send "&3> &e/TowerRivals setspawn [ID Areny] &8- &7Spawn dla areny"
+			send "&3> &e/TowerRivals setlobby &8- &7Ustawia lobby TowerRivals"
+			send "&3> &e/TowerRivals remove [ID Areny] &8- &7Usuwa arene TowerRivals"
+			send "&3> &e/TowerRivals list &8- &7Pokazuje liste aren"
+		if arg 1 is "create":
+			if player has permission "TowerRivals.create":
+				if arg 2 is set:
+					if {tower::arena::id::%arg 2%} is set:
+						send "{@tag} &7Arena o ID &c%arg 2% &7juz istnieje"
+						stop
+					else:
+						add arg 2 to {tower::list::*}
+						set {tower::arena::id::%arg 2%} to true
+						send "{@tag} &7Stworzyles arene o ID: &c%arg 2%"
+						set {tower::status::%arg 2%} to "niedostepna"
+				else:
+					send "{@tag} &7Uzycie: &6/TowerRivals create [ID Areny]"
+			else:
+				send "{@tag}&4Nie masz uprawnien do tej komendy &7(TowerRivals.create)"
+		if arg 1 is "remove":
+			if player has permission "TowerRivals.remove":
+				if arg 2 is set:
+					if {tower::arena::id::%arg 2%} is set:
+						remove arg 2 from {tower::list::*}
+						delete {tower::arena::id::%arg 2%}
+						send "{@tag} &7Usunoles arene od ID: &c%arg 2%"
+						delete {tower::status::%arg 2%}
+					else:
+						send "{@tag} &7Arena o ID &c%arg 2 % &7 nie istnieje"
+				else:
+					send "{@tag} &7Uzycie: &6/TowerRivals remove [ID Areny]"
+			else:
+				send "{@tag}&4Nie masz uprawnien do tej komendy &7(TowerRivals.remove)"
+		if arg 1 is "lista":
+			if player has permission "TowerRivals.lista":
+				send "{@tag} &7Dostepne areny:"
+				send " "
+				if (size of {tower::lista::*}) > 0:
+					loop {tower::lista::*}:
+						if {tower::status::%loop-value%} is "niedostepna":
+							send "&3> &7ID &6%loop-value% &cNiedostepna"
+				else:
+					send "{@tag} &7Brak aren"
+			else:
+				send "{@tag}&4Nie masz uprawnien do tej komendy &7(TowerRivals.lista)"
+		if arg 1 is "setlobby":
+			if player has permission "TowerRivals.setlobby":
+				set {tower::lobby} to location of player
+				send "{@tag} &7Stworzyles lobby TowerRivals"
+			else:
+				send "{@tag}&4Nie masz uprawnien do tej komendy &7(TowerRivals.setlobby)"
+		if arg 1 is "setspawn":
+			if player has permission "TowerRivals.setspawn":
+				if arg 2 is set:
+					if {tower::arena::id::%arg 2%} is set:
+						if arg 3 is set:
+							if arg 3 is "red":
+								set {tower::spawn::red::%arg 2%} to location of player
+								send "{@tag} &7Ustawiles spawn dla druzyny &4RED"
+								set {tower::status::%arg 2%} to "oczekuje"
+							if arg 3 is "blue":
+								set {tower::spawn::blue::%arg 2%} to location of player
+								send "{@tag} &7Ustawiles spawn dla druzyny &1BLUE"
+								set {tower::status::%arg 2%} to "oczekuje"
+						else:
+							send "{@tag} &7Uzycie: &6/TowerRivals setspawn %arg 2% [&4RED&6/&1BLUE&6]"
+					else:
+						send "{@tag} &7Nie ma takiej areny"
+				else:
+					send "{@tag} &7Uzycie: &6/TowerRivals setspawn [ID Areny] [RED/BLUE]"
+			else:
+				send "{@tag}&4Nie masz uprawnien do tej komendy &7(TowerRivals.setspawn)"
+		if arg 1 is "join":
+			if {tower::gracz::%player%::dolacz} is false:
+				if arg 2 is set:
+					if {tower::arena::id::%arg 2%} is set:
+						if {tower::status::%arg 2%} is "oczekuje":
+							if (size of {tower::gracz::%arg 2%::*}) < {tower::arena::setplayer::%arg 2%}+1:
+								teleport player to {tower::lobby}
+								wait 1 tick
+								set slot 0 of player to blue wool named "&6Wybierz druzyne &1Niebieska"
+								set slot 1 of player to red wool named "&6Wybierz druzyne &4Czerwona"
+								set slot 8 of player to bone named "&6Wyjscie"
+								set {tower::gracz::%player%::arena} to arg 2
+								set {tower::gracz::%player%::dolacz} to true
+								set {tower::%player%::hiperk::*} to arg 2
+								add player to {tower::gracze::arena::%arg 2%::*}
+								add 1 to {tower::gracze::%arg 2%::lista}
+								send "{@tag} &7Gracz &6%player% &7dolaczyl do gry. &8[&6%{tower::gracze::%arg 2%::lista}%&8/&6%{tower::arena::setplayer::%arg 2%}%&8]" to {tower::gracze::arena::%arg 2%::*}
+								if {tower::gracze::%arg 2%::lista} is {tower::arena::setplayer::%arg 2%}:
+									send "{@tag} &7Rozgrywka rozpocznie sie za &615s" to {tower::gracze::arena::%arg 2%::*}
+									wait 5 second
+									send "{@tag} &7Rozgrywka rozpocznie sie za &610s" to {tower::gracze::arena::%arg 2%::*}
+									wait 5 second
+									send "{@tag} &7Rozgrywka rozpocznie sie za &65s" to {tower::gracze::arena::%arg 2%::*}
+									wait 3 second
+									send "{@tag} &7Rozgrywka rozpocznie sie za &43s" to {tower::gracze::arena::%arg 2%::*}
+									wait 1 second
+									send "{@tag} &7Rozgrywka rozpocznie sie za &c2s" to {tower::gracze::arena::%arg 2%::*}
+									wait 1 second
+									send "{@tag} &7Rozgrywka rozpocznie sie za &a1s" to {tower::gracze::arena::%arg 2%::*}
+									wait 1 second
+									send "{@tag} &2Rozgrywka Wystartowala" to {tower::gracze::arena::%arg 2%::*}
+									wait 1 tick
+									loop {tower::arena::%arg 2%::blue::*}:
+										teleport loop-value to {tower::spawn::blue::%arg 2%}
+									loop {tower::arena::%arg 2%::red::*}:
+										teleport loop-value to {tower::spawn::red::%arg 2%}
+							else:
+								send "{@tag} &7Arena jest pelna"
+						else:
+							send "{@tag} &7Oczekuje na stworzenie setspawn"
+					else:
+						send "{@tag} &7Arena od ID &6%arg 2% &7nie istnieje"
+				else:
+					send "{@tag} &7Uzycie: &6/TowerRivals join &7<&6ID&7>"	
+			else:
+				send "{@tag} &7Jestes juz na arenie"
+								
+		if arg 1 is "setplayer":
+			if player has permission "TowerRivals.setplayer":
+				if arg 2 is set:
+					if {tower::arena::id::%arg 2%} is set:
+						if arg 3 is set:
+							set {tower::arena::setplayer::%arg 2%} to arg 3 parsed as integer
+							send "{@tag} &7Ustawiles &6%arg 3% &7graczy dla areny o ID: &6%arg 2%"
+						else:
+							send "{@tag} &7Uzycie: &6/TowerRivals setplayer %arg 2% <&6liczba&7>"
+					else:
+						send "{@tag} &7Arena o ID %arg 2% nie istnieje"
+				else:
+					send "{@tag} &7Uzycie: &6/TowerRivals setplayer &7<&6ID&7> &7<&6Liczba&7>"
+			else:
+				send "{@tag}&4Nie masz uprawnien do tej komendy &7(TowerRivals.setplayer)"
+		if arg 1 is "reset":
+			if player has permission "TowerRivals.reset":
+				if arg 2 is set:
+					set {tower::gracz::%arg 2%::dolacz} to false
+					send "{@tag} &7Zresetowales arene &6%arg 2%"
+					clear {tower::gracze::%{tower::gracz::%player%::arena}%}
+					clear {tower::gracze::arena::%arg 2%::*}
+					clear {tower::gracze::%arg 2%::lista}
+					clear {tower::arena::%arg 2%::blue}
+					clear {tower::arena::%arg 2%::red::*}
+					clear {tower::arena::%arg 2%::blue::*}
+					clear {tower::team::%arg 2%::blue::*}
+					clear {tower::team::%arg 2%::red::*}
+					set {tower::%player%::blue} to false
+					set {tower::%player%::red} to false
+				else:
+					send "{@tag} &7Uzycie: &6/TowerRivals reset &7<&6ID&7>"
+			else:
+				send "{@tag}&4Nie masz uprawnien do tej komendy &7(TowerRivals.reset)"
+
+		if arg 1 is "blue":
+			if {tower::gracz::%player%::dolacz} is true:
+				if arg 2 is set:
+					if {tower::status::%arg 2%} is "oczekuje":
+						if {tower::%player%::red} is false:
+							if (size of {tower::team::%arg 2%::blue::*}) < {BLUE}+1:
+								add player to {tower::arena::%arg 2%::blue::*}
+								add 1 to {tower::team::%arg 2%::blue::*}
+								set {BLUE} to {tower::arena::setplayer::%arg 2%}/2
+								set {tower::%player%::blue} to true
+								send "{@tag} &7Gracz &6%player% &7 dolaczyl do druzyny &1BLUE &8[&6%{tower::team::%arg 2%::blue::*}%&8/&6%{BLUE}%&8]" to {tower::gracze::arena::%arg 2%::*}
+							else:
+								send "{@tag} &7Druzyna &1Niebieska &7 jest juz pelna &8[&6%{tower::team::%arg 2%::blue::*}%&8/&6%{BLUE}%&8]"
+						else:
+							send "{@tag} &7Jestes juz w druzynie &4Czerwonych"
+					else:
+						send "{@tag} &7Nie mozesz juz wybrac druzyny"
+				else:
+					send "{@tag} &7Uzycie: &6/TowerRivals &1blue &7<&6ID&7>"
+			else:
+				send "{@tag} &7Aktualnie nie ma cie na arenie"
+		if arg 1 is "red":
+			if {tower::gracz::%player%::dolacz} is true:
+				if arg 2 is set:
+					if {tower::status::%arg 2%} is "oczekuje":
+						if {tower::%player%::blue} is false:
+							if (size of {tower::team::%arg 2%::red::*}) < {RED}+1:
+								add player to {tower::arena::%arg 2%::red::*}
+								add 1 to {tower::team::%arg 2%::red::*}
+								set {RED} to {tower::arena::setplayer::%arg 2%}/2
+								set {tower::%player%::red} to true
+								send "{@tag} &7Gracz &6%player% &7 dolaczyl do druzyny &4RED &8[&6%{tower::team::%arg 2%::red::*}%&8/&6%{RED}%&8]" to {tower::gracze::arena::%arg 2%::*}
+							else:
+								send "{@tag} &7Druzyna &4Czerwona &7 jest juz pelna &8[&6%{tower::team::%arg 2%::red::*}%&8/&6%{RED}%&8]"
+						else:
+							send "{@tag} &7Jestes juz w druzynie &1Niebieskiej"
+					else:
+						send "{@tag} &7Nie mozesz juz wybrac druzyny"
+				else:
+					send "{@tag} &7Uzycie: &6/TowerRivals &4RED &7<&6ID&7>"
+			else:
+				send "{@tag} &7Aktualnie nie ma cie na arenie"
+		if arg 1 is "leaveer":
+			if {tower::gracz::%player%::dolacz} is true:
+				if arg 2 is set:
+					set {tower::gracz::%player%::dolacz} to false
+					set {tower::%player%::blue} to false
+					set {tower::%player%::red} to false
+					remove player from {tower::gracze::arena::%arg 2%::*}
+					remove 1 from {tower::team::%arg 2%::blue::*}
+					teleport player to spawn
+					send "{@tag} &7Wyszedles z areny &6%arg 2%"
+					clear {tower::%player%::hiperk::*}
+					remove player from {tower::arena::%arg 2%::red::*}
+					remove player from {tower::arena::%arg 2%::blue::*}
+					remove 1 from {tower::team::%arg 2%::red::*}
+					remove 1 from {tower::team::%arg 2%::blue::*}
+					remove player from {tower::gracze::arena::%arg 2%::*}
+					remove 1 from {tower::gracze::%arg 2%::lista}
+				else:
+					send "{@tag} &7Uzycie: &6/TowerRivals leave <ID Areny>"
+			else:
+				send "{@tag} &7Aktualnie nie ma cie na zadnej arenie"
+		if arg 1 is "leave":
+			execute player command "tr leaveer %{tower::%player%::hiperk::*}%"
+		if arg 1 is "setmob":
+			if player has permission "TowerRivals.setmob":
+				if arg 2 is set:
+					if {tower::arena::id::%arg 2%} is set:
+						if arg 3 is set:
+							spawn 1 pig at {tower::spawn::mob::%arg 2%}
+							set the last spawned entity's max health to 50
+							heal last spawned entity
+							set the spawned pig's display name to "&3player"
+							send "{@tag} &7Stworzyles Bossa dla areny &6%arg 2% &7o hp: &6%arg 3%"
+						else:
+							send "{@tag} &7Uzycie: &6/TowerRivals setmob %arg 2% &7<&6HP&7>"
+					else:
+						send "{@tag} &7Arena o ID &6%arg 2% &7nie istnieje"
+				else:
+					send "{@tag} &7Uzycie: &6/TowerRivals setmob &7<&6ID&7> &7<&6HP&7>"
+			else:
+				send "{@tag}&4Nie masz uprawnien do tej komendy &7(TowerRivals.setmob)"
+		if arg 1 is "setspawnmob":
+			if player has permission "TowerRivals.setspawnmob":
+				if arg 2 is set:
+					if {tower::arena::id::%arg 2%} is set:
+						set {tower::spawn::mob::%arg 2%} to location of player
+						send "{@tag} &7Ustawiles spawn Bossa dla areny &6%arg 2%"
+					else:
+						send "{@tag} &7Arena o ID &6%arg 2% &7nie istnieje"
+				else:
+					send "{@tag} &7Uzycie: &6/TowerRivals setspawnmob &7<&6ID&7>"
+			else:
+				send "{@tag}&4Nie masz uprawnien do tej komendy &7(TowerRivals.setspawnmob)"
+		if arg 1 is "winerg1":
+			if {tower::gracz::%player%::dolacz} is true:
+				if {tower::%player%::blue} is false:
+					broadcast "{@tag} &7Druzyna &4Czerwona &7wygrala arene &6%arg 3%"
+					wait 3 second
+					loop {tower::gracze::arena::%arg 3%::*}:
+						execute player command "tr winerg2 %player% %{tower::%player%::hiperk::*}%"
+				else:
+					broadcast "{@tag} &7Druzyna &1Niebieska &7wygrala arene &6%arg 3%"
+						loop {tower::gracze::arena::%arg 3%::*}:
+						execute player command "tr winerg2 %player% %{tower::%player%::hiperk::*}%"
+		if arg 1 is "winerg2":
+			set {tower::gracz::%player%::dolacz} to false
+			set {tower::%player%::blue} to false
+			set {tower::%player%::red} to false
+			remove 1 from {tower::team::%arg 3%::blue::*}
+			teleport player to spawn
+			clear {tower::%player%::hiperk::*}
+			remove player from {tower::arena::%arg 3%::red::*}
+			remove player from {tower::arena::%arg 3%::blue::*}
+			remove 1 from {tower::team::%arg 3%::red::*}
+			remove 1 from {tower::team::%arg 3%::blue::*}
+			remove player from {tower::gracze::arena::%arg 3%::*}
+			remove 1 from {tower::gracze::%arg 3%::lista}
+on quit:
+	if {tower::gracz::%player%::dolacz} is true:
+		execute player command "tr leaveer %{tower::%player%::hiperk::*}%"
+on damage of creature:
+	if name of victim contains "&3player":
+		set name of victim to "&3player &6%health of victim%/%max health of victim%"
+on death of creature:
+	if victim is a pig:
+		name of victim contains "&3player":
+			drop a nether star named "&6Gwiazda Wygranej &cBitwy &8| &7Nacisnij PPM" at location of victim
+on rightclick holding a nether star:
+	if name of player's tool is "&6Gwiazda Wygranej &cBitwy &8| &7Nacisnij PPM":
+		remove a nether star from player
+		wait 2 second
+		execute player command "tr winerg1 %player% %{tower::%player%::hiperk::*}%"
+on rightclick holding a red wool:
+	if name of player's tool is "&6Wybierz druzyne &1Niebieska":
+		execute player command "tr blue %{tower::%player%::hiperk::*}%"
+on rightclick holding a blue wool:
+	if name of player's tool is "&6Wybierz druzyne &4Czerwona":
+		execute player command "tr red %{tower::%player%::hiperk::*}%"
+on rightclick holding a bone:
+	if name of player's tool is "&6Wyjscie":
+		execute player command "tr leave"
