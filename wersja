@@ -1,1 +1,197 @@
-0.3
+#InDev 1.1#
+variables:
+	{chat} = true
+	{language::%player%} = 1
+options:
+	tagbb: &8&l[&cG-Core&8&l]
+	tag: &3&l[&c&nGameCraft&3&l]
+	tagc: &8&l[&cG-Chat&8&l]
+on load:
+	set {_version} to content of file "plugins/Skript/scripts/%skript%.sk"
+	set {_v} to index of "##" in {_version}
+	set {_v2} to subtext of {_version} from character ({_v}+1) to character (length of {_version})
+	set {_v3} to index of "##" in {_v2}
+	set {version} to subtext of {_version} from character ({_v}+1) to character ({_v3})
+	set {_version} to result of connect to "http://newcrafts.webt.pl/skript/gcore.sk"
+	set {_v} to index of "##" in {_version}
+	set {_v2} to subtext of {_version} from character ({_v}+1) to character (length of {_version})	
+	set {_v3} to index of "##" in {_v2}
+	set {version.new} to subtext of {_version} from character ({_v}+1) to character ({_v3})
+	{version} is not {version.new}:
+		send "Jest dostepna nowa wersja skryptu! Pobierz ja /update pobierz" to console
+command /day:
+	trigger:
+		if player has permission "pogoda.day":
+			set world's time to 6:00
+			send "&7&l[&4Pogoda&7&l] &3Ustawiles czas na &eDzien"
+		else:
+			send "&7&l[&4Pogoda&7&l] &4Nie masz uprawnien do tej komendy &7(pogoda.day)"
+command /night:
+	trigger:
+		if player has permission "pogoda.night":
+			set world's time to 20:00
+			send "&7&l[&4Pogoda&7&l] &3Ustawiles czas na &eNoc"
+		else:
+			send "&7&l[&4Pogoda&7&l] &4Nie masz uprawnien do tej komendy &7(pogoda.night)"
+command /sun:
+	trigger:
+		if player has permission "pogoda.sun":
+			set the weather in the player's world to sun
+			send "&7&l[&4Pogoda&7&l] &3Ustawiles pogode &eSloneczna"
+		else:
+			send "&7&l[&4Pogoda&7&l] &4Nie masz uprawnien do tej komendy &7(pogoda.sun)"
+command /rain:
+	trigger:
+		if player has permission "pogoda.rain":
+			set the weather in the player's world to rain
+			send "&7&l[&4Pogoda&7&l] &3Ustawiles pogode &eDeszczowa"
+		else:
+			send "&7&l[&4Pogoda&7&l] &4Nie masz uprawnien do tej komendy &7(pogoda.rain)"
+command /setspawn [<text>]:
+	trigger:
+		if arg 1 is not set:
+			if player has permission "spawn.setspawn":
+				set spawn to location of player
+				send "&7&l[&4Spawn&7&l] &c&lUstawiles spawn dla wszystkich rang"
+			else:
+				send "&7&l[&4Spawn&7&l] &4Nie masz uprawnien do tej komendy &7(spawn.setspawn)"
+command /spawn:
+	trigger:
+		if player has permission "essentials.spawn":
+			if player is op:
+				teleport player to spawn
+				send "&7&l[&4Spawn&7&l] &7&lZostales teleprtowany na spawn"
+			else:
+				send "&7&l[&4Spawn&7&l] &7&lMusicz poczekac 5 sekund"
+				wait 5 second
+				teleport player to spawn
+				wait 1 tick
+				send "&7&l[&4Spawn&7&l] &7&lZostales teleprtowany na spawn"
+command /bb [<text="Najlpeszy serwer GameCraft">]:
+	trigger:
+		if player has permission "bb.message":
+			if arg 1 is set:
+				broadcast "&8&l[&6&l::&a&lOgloszenie&6&l::&8&l]&7&l[&3%player%&7&l] &c%colored arg 1%"
+		else:
+			send "{@tagbb} &4Nie masz uprawnien do tej komendy &7(bb.message)"
+command /pomoc:
+	trigger:
+		send "&8&l&m==========[{@tag}&8&l&m]=========="
+		send "&c>> &2/spawn &3- &eTeleportuje na spawn"
+		send "&c>> &2/tpa &3- &eTeleportuje do gracza"
+		send "&c>> &2/drop &3- &ePokazuje giu z dropem"
+		send "&c>> &2/vip &3- &eInformacje o VIP'ie"
+		send "&c>> &2/kits &3- &eOtwiera sie gui z kitami"
+command /chat [<text>] [<text>]:
+	trigger:
+		if arg 1 is not set:
+			if {language::%player%} is 2:
+				send "&8&l&m==========[{@tagc}&8&l&m]=========="
+				send "&c>> &2/chat on &3- &eEnable chat"
+				send "&c>> &2/chat off &3- &eDisable chat"
+				send "&c>> &2/chat clear &3- &eClear chat"
+			if {language::%player%} is 1:
+				send "&8&l&m==========[{@tagc}&8&l&m]=========="
+				send "&c>> &2/chat wlancz &3- &eWlaczenie chatu"
+				send "&c>> &2/chat wylancz &3- &eWylaczenie chatu"
+				send "&c>> &2/chat wyczysc &3- &eCzyszczenie chatu"
+		if arg 1 is "on" or "wlancz":
+			if player has permission "chat.admin.on":
+				set {chat} to true
+				loop 150 times:
+					broadcast " "
+				broadcast "                        &a&l&nGameCraft"
+				broadcast " "
+				broadcast "               &cChat zostal wlaczony"
+				broadcast "                     &cprzez: &a%player%"
+				broadcast "  "
+				broadcast "   "
+				broadcast "   "
+			else:
+				send "{@tagc} &4Nie masz uprawnien do tej komendy &7(chat.admin.on)"
+		if arg 1 is "off" or "wylancz":
+			if player has permission "chat.admin.off":
+				if arg 2 is set:
+					set {chat} to false
+					set {chat::powod} to arg 2
+					set {chat::powod::status} to true
+					loop 150 times:
+						broadcast " "
+					broadcast "                        &a&l&nGameCraft"
+					broadcast " "
+					broadcast "               &cChat zostal wylaczony"
+					broadcast "                     &cprzez: &4%player%"
+					broadcast "                  &cPowod: &7%arg 2%"
+					broadcast "   "
+					broadcast "   "
+				else:
+					set {chat::powod::status} to false
+					loop 150 times:
+						broadcast " "
+					broadcast "                        &a&l&nGameCraft"
+					broadcast " "
+					broadcast "               &cChat zostal wylaczony"
+					broadcast "                     &cprzez: &4%player%"
+					broadcast "  "
+					broadcast "   "
+					broadcast "   "
+			else:
+				send "{@tagc} &4Nie masz uprawnien do tej komendy &7(chat.admin.off)"
+		if arg 1 is "cc" or "clear" or "wyczysc":
+			if player has permission "chat.admin.clear":
+				loop 150 times:
+					broadcast " "
+				broadcast "                        &a&l&nGameCraft"
+				broadcast " "
+				broadcast "               &4&lChat zostal wczyszczony"
+				broadcast "                     &4&lprzez: &3%player%"
+				broadcast "  "
+				broadcast "   "
+				broadcast "   "
+			else:
+				send "{@tagc} &4Nie masz uprawnien do tej komendy &7(chat.admin.clear)"
+		if arg 1 is "language" or "jezyk":
+			if arg 2 is set:
+				if arg 2 is "en":
+					set {language::%player%} to 2
+					send "{@tagc} &2Set your language on &cEnglish"
+				if arg 2 is "pl":
+					set {language::%player%} to 1
+					send "{@tagc} &2Ustawiono towj jezyk na &cPolski"
+on chat:
+	if {chat} is false:
+		if player has permission "chat.massage":
+			stop
+		else:
+			if {chat::powod::status} is true:
+				cancel event
+				send "{@tagc} &7Aktualnie chat jest wylaczony"
+				send "{@tagc} &7Powod: &c%{chat::powod}%"
+				stop
+			else:
+				cancel event
+				send "{@tagc} &7Aktualnie chat jest wylaczony"
+				stop
+command /update [<text>]:
+	trigger:
+		if player has permission "update.status":
+			set {_version} to result of connect to "http://newcrafts.webt.pl/skript/gcore.sk"
+			set {_v} to index of "##" in {_version}	
+			set {_v2} to subtext of {_version} from character ({_v}+1) to character (length of {_version})
+			set {_v3} to index of "##" in {_v2}	
+			set {version.new} to subtext of {_version} from character ({_v}+1) to character ({_v3})
+			arg 1 is "sprawdz":	
+				send "Twoja wersja to %{version}%"
+				send "Najnowsza wersja to %{version.new}%"
+				{version} is not {version.new}:	
+					send "Jest dostepna nowa wersja"
+			arg 1 is "pobierz":
+				{version} is not {version.new}:
+					download "http://newcrafts.webt.pl/skript/gcore.sk" to "plugins/Skript/scripts/gcore.sk"
+					send "Pobrano najnowsza wersje!"
+				else:
+					send "Masz juz najnowsza wersje skrypta!"
+			else:
+				send "/update sprawdz - sprawdza aktualizacje"
+				send "/update pobierz - pobiera aktualizacje"
+			stop
