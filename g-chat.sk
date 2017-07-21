@@ -41,13 +41,13 @@ on load:
 	set {_v2} to subtext of {_version} from character ({_v}+1) to character (length of {_version})
 	set {_v3} to index of "##" in {_v2}
 	set {version} to subtext of {_version} from character ({_v}+1) to character ({_v3})
-	set {_version} to result of connect to "http://pastebin.com/raw.php?i=pACBwvMh"
+	set {_version} to result of connect to "https://raw.githubusercontent.com/hiperk/skript/master/g-chat.sk"
 	set {_v} to index of "##" in {_version}
 	set {_v2} to subtext of {_version} from character ({_v}+1) to character (length of {_version})
 	set {_v3} to index of "##" in {_v2}
 	set {version.new} to subtext of {_version} from character ({_v}+1) to character ({_v3})
 	{version} is not {version.new}:
-	download "http://pastebin.com/raw.php?i=pACBwvMh" to "plugins/Skript/scripts/%skript%.sk"
+	download "https://raw.githubusercontent.com/hiperk/skript/master/g-chat.sk" to "plugins/Skript/scripts/%skript%.sk"
 #----------------#
 #    →zmienne    #
 #----------------#
