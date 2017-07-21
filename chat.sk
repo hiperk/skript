@@ -44,7 +44,7 @@ on load:
 	if {_x3} is {_x2}:                    
 		delete {_x2}                    
 		stop                        
-	download "https://raw.githubusercontent.com/hiperk/skript/master/chat.sk" to "plugins/Skript/scripts/%script%"            
+	download "https://raw.githubusercontent.com/hiperk/skript/master/chat.sk" to "plugins/Skript/scripts/%script%.sk"            
 	set {_x3} to {_x2}            
 	delete {_x}           
 	delete {_x2}           
