@@ -1,0 +1,55 @@
+#--------------------------------------------------------
+#Hej, tu skript "G-Chat", wykonany przez Hiperk'a ;)
+#--------------------------------------------------------
+#
+#-----------------------[Permisje]-----------------------
+#
+# 1.chat.admin.on | 2.chat.admin.off | 3.chat.admin.cc
+# 3.chat.say | 4.chat.vip.bb | 5.chat.vip.bb.only
+# 6.chat.slowmode | 7.chat.admin.slowmode.toogle
+# 8.chat.admin.automsg.toogle | 9.chat.admin.reload
+#
+#--------------------------------------------------------
+# Tag - Ustaw tak który będzie wyświetlny przy funkcjach
+# cc/off/on
+tag: '&f&l[&aEX&bCORE&f&l]'
+#--------------------------------------------------------
+# TAG.AutoMsg - Ustawia tag dla automessage
+# Np. &f[&aInfo&f]
+# Będzie wyświetlane przed każda wiadomością
+TAG.AutoMsg: '&f&l[&aInfoE&f&l]'
+#--------------------------------------------------------
+# TAG.Active - Jeśli ustawisz na true
+# Będzie wystietlat prefiks który ustaliłeś powyżej
+# True=Właczone False=Wyłączone
+TAG.Active: false
+#--------------------------------------------------------
+# Slowmode.time - Co ile czasu gracz moze pisać na czacie
+# Domyślnie jest na 3s
+Slowmode.time: '3'
+#--------------------------------------------------------
+# Slowmode.Active - Włacza slowmode na czaie
+# Powysze ustawienie pazwala na ustalenie
+# Co ile można pisąć na czacie
+# Możnna włączyć i wyłączyć komenda /chat slowmode
+# Domyślnie wyłączone
+# Permisje -> chat.admin.slowmode.toggle
+# Pemisje aby admin nie musiał czekać -> chat.slowmode
+Slowmode.Active: false
+#--------------------------------------------------------
+# AutoMSG.Active - Włacza i wyłacza automessage na czacie
+# Można właczyć i wyłączyć komenda /chat automsg
+# Domyślnie jest na false
+# Permisje -> chat.admin.automsg.toggle
+AutoMSG.Active: false
+#--------------------------------------------------------
+# Automsg - Pozwala na dostosowanie wiadomosci
+# Które są wyświetlanie na czacie
+# Wysłanie wiadomości jest domyślnie co 25s
+# Dodawanie nowych wiadomosci:
+# 4: 'Dowolny tekst' i tak ciągle
+automsg:
+  1: '&3Co tam u was?'
+  2: 'siema2'
+  3: 'siema co tam u was xde'
+#--------------------------------------------------------
