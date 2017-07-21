@@ -11,13 +11,13 @@
 #
 #--------------------------------------------------------
 # Tag - Ustaw tak który będzie wyświetlny przy funkcjach
-# cc/off/on
+# Takich jak: cc/off/on
 tag: '&f&l[&aEX&bCORE&f&l]'
 #--------------------------------------------------------
 # TAG.AutoMsg - Ustawia tag dla automessage
 # Np. &f[&aInfo&f]
 # Będzie wyświetlane przed każda wiadomością
-TAG.AutoMsg: '&f&l[&aInfoE&f&l]'
+TAG.AutoMsg: '&f&l[&aInfo&f&l]'
 #--------------------------------------------------------
 # TAG.Active - Jeśli ustawisz na true
 # Będzie wystietlat prefiks który ustaliłeś powyżej
@@ -49,7 +49,7 @@ AutoMSG.Active: false
 # Dodawanie nowych wiadomosci:
 # 4: 'Dowolny tekst' i tak ciągle
 automsg:
-  1: '&3Co tam u was?'
-  2: 'siema2'
-  3: 'siema co tam u was xde'
+  1: '&2Ustaw wiadomosc automessage &c/plugins/G-Chat/config.yml'
+  2: '&4Ustaw wiadomosc automessage &c/plugins/G-Chat/config.yml'
+  3: '&eUstaw wiadomosc automessage &c/plugins/G-Chat/config.yml'
 #--------------------------------------------------------
