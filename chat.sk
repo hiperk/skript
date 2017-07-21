@@ -1,4 +1,4 @@
-#InDev 1.0#
+#InDev 1.1#
 #- - - - - - - - -[G-Chat]- - - - - - - - #----------------------------------#
 #→Autor: hiperk                           #→G-Chat w wersji v1.0             #
 #→komendy:                                #→Wymagania:                       #
@@ -213,4 +213,4 @@ every {@msgtime} seconds:
 		else:
 			set {msgadds} to 1
 #-------------------------------------------|------[Koniec Skryptu]------|--------------------------------------#
-#                                           |_  wykonanego przez hiperk _|                                      #
+#                                           |_  wykonanego przez hiperk 123_|                                      #
