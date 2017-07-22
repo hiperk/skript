@@ -35,21 +35,35 @@ Slowmode.time: '3'
 # Domyślnie wyłączone
 # Permisje -> chat.admin.slowmode.toggle
 # Pemisje aby admin nie musiał czekać -> chat.slowmode
+# True=Właczone False=Wyłączone
 Slowmode.Active: false
 #--------------------------------------------------------
 # AutoMSG.Active - Włacza i wyłacza automessage na czacie
 # Można właczyć i wyłączyć komenda /chat automsg
 # Domyślnie jest na false
 # Permisje -> chat.admin.automsg.toggle
+# True=Właczone False=Wyłączone
 AutoMSG.Active: false
 #--------------------------------------------------------
 # Automsg - Pozwala na dostosowanie wiadomosci
 # Które są wyświetlanie na czacie
 # Wysłanie wiadomości jest domyślnie co 25s
 # Dodawanie nowych wiadomosci:
-# 4: 'Dowolny tekst' i tak ciągle
+# 4: 'Dowolny tekst' | I tak ciągle.
 automsg:
   1: '&2Ustaw wiadomosc automessage &c/plugins/G-Chat/config.yml'
   2: '&4Ustaw wiadomosc automessage &c/plugins/G-Chat/config.yml'
   3: '&eUstaw wiadomosc automessage &c/plugins/G-Chat/config.yml'
+#--------------------------------------------------------
+# BB.Cast.Active - Włacza i Wyłacza komende /chat bb
+# BBCast pozwala na pisanie ogłoszeń co 5 min
+# Czas można zmienić w configu
+# True=Właczone False=Wyłączone
+BB.Cast.Active: true
+#--------------------------------------------------------
+# BB.Cast.message - Pozwala dostosować wygląd Ogłoszeń
+# Zmienna: (nick) zostanie podmieniona na np. Kowalski
+# Zmienna: (tersc) zostanie podmieniona na tresc
+# Którą Kowalski wpisze na czacie /chat bb <tresc>
+BB.Cast.message: '&e&l[&a&lBBCore&e&l]&a[&e(nick)&a] &7(tresc)'
 #--------------------------------------------------------
