@@ -1,4 +1,4 @@
-#Dev 1.3#
+#Dev 1.2#
 #- - - - - - - - -[G-Chat]- - - - - - - - #----------------------------------#
 #→Autor: hiperk                           #→G-Chat w wersji v1.0             #
 #→komendy:                                #→Wymagania:                       #
@@ -38,6 +38,8 @@ on script load:
 	set {AutoMSG::active} to yaml value "AutoMSG.Active" from "plugins/G-Chat/config.yml"
 	set {tagmsg} to colored single value "TAG.AutoMsg" get of "plugins/G-Chat/config.yml"
 	set {tag::active} to yaml value "TAG.Active" from "plugins/G-Chat/config.yml"
+	set {bbmsg} to yaml value "BB.Cast.message" from "plugins/G-Chat/config.yml"
+	set {bb::active} to yaml value "BB.Cast.Active" from "plugins/G-Chat/config.yml"
 on load:    
 	if {_x} isn't set:                
 		set {_x2} to result of connect to "https://raw.githubusercontent.com/hiperk/skript/master/wersja"                
@@ -156,17 +158,28 @@ command /chat [<text>] [<text>]:
 				send "{@tag} &4Nie masz uprawnien do tej komendy &7(chat.admin.automsg.toggle)"
 		if arg 1 is "bb":
 			if player has permission "chat.vip.bb":
-				if arg 2 is set:
-					if player has permission "chat.vip.bb.only":
-						broadcast "&2[&e&lBB&f-&e&lCast&2]&e&l[&2%player%&e&l] &7%colored arg 2%"
-					else:
-						if difference between {bb::%player%::lastused} and now is less than 5 seconds:
-							send "{@tag} &cJeszcze nie mozesz uzywac %difference between {bb::%player%::lastused} and now%"
+				if {bb::active} is true:
+					if arg 2 is set:
+						if player has permission "chat.vip.bb.only":
+							set {_bbmsg} to {bbmsg}
+							replace all "(nick)" with "%player%" in {_bbmsg}
+							replace all "(tresc)" with "%colored arg 2%" in {_bbmsg}
+							set {_bbtresc} to coloured {_bbmsg}
+							broadcast "%{_bbtresc}%"
 						else:
-							broadcast "&2[&e&lBB&f-&e&lCast&2]&e&l[&2%player%&e&l] &7%colored arg 2%"
-							set {bb::%player%::lastused} to now
+							if difference between {bb::%player%::lastused} and now is less than 5 seconds:
+								send "{@tag} &cJeszcze nie mozesz uzywac %difference between {bb::%player%::lastused} and now%"
+							else:
+								set {_bbmsg} to {bbmsg}
+								replace all "(nick)" with "%player%" in {_bbmsg}
+								replace all "(tresc)" with "%colored arg 2%" in {_bbmsg}
+								set {_bbtresc} to coloured {_bbmsg}
+								broadcast "%{_bbtresc}%"
+								set {bb::%player%::lastused} to now
+					else:
+						send "{@tag} &eUzyj: &a/&echat bb &a<&eWiaodmosc&a>"
 				else:
-					send "{@tag} &eUzyj: &a/&echat bb &a<&eWiaodmosc&a>"
+					send "{@tag} &4BB-Coast jest wylaczone"
 			else:
 				send "{@tag} &4Nie masz uprawnien do tej komendy &7(chat.vip.bb)"
 #-------------------------------------------|------[Koniec Kodu]------|--------------------------------------#
