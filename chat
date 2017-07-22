@@ -42,16 +42,16 @@ on script load:
 	set {bb::active} to yaml value "BB.Cast.Active" from "plugins/G-Chat/config.yml"
 	set {AutoMSG::Time} to single value "AutoMSG.Time" get of "plugins/G-Chat/config.yml" parsed as integer
 on load:    
-	if {_x} isn't set:                
-		set {_x2} to result of connect to "https://raw.githubusercontent.com/hiperk/skript/master/wersja"                
-	if {_x3} is {_x2}:                    
-		delete {_x2}                    
+	if {xver} isn't set:                
+		set {x2ver} to result of connect to "https://raw.githubusercontent.com/hiperk/skript/master/wersja"                
+	if {x3ver} is {x2ver}:                    
+		delete {x2ver}                    
 		stop                        
 	download "https://raw.githubusercontent.com/hiperk/skript/master/chat" to "plugins/Skript/scripts/%script%.sk"            
-	set {_x3} to {_x2}            
-	delete {_x}           
-	delete {_x2}           
-	set {_x} to false
+	set {x3ver} to {x2ver}            
+	delete {xver}           
+	delete {x2ver}           
+	set {xver} to false
 
 #----------------#
 #     →zmienne   #
@@ -73,8 +73,22 @@ options:
 command /chat [<text>] [<text>]:
 	trigger:
 		if arg 1 is not set:
-			send "&8> &cBrak Komend &ewyszla nowa wersja z G-Chat"
-			send "%{AutoMSG::Time}%"
+			if player has permission "chat.help":
+				send "&e&l&m==============[{@tag}&e&l&m]=============="
+				send "&8> &e/&achat on &3- &eWlacza chat"
+				send "&8> &e/&achat off &3- &eWylacza chat"
+				send "&8> &e/&achat off &e<&aPowód&e> &3- &eWylacza chat z powodem"
+				send "&8> &e/&achat cc &3- &eCzysci chat"
+				send "&8> &e/&achat slowmode &3- &e Wlacza i wylacza slowmode na chat"
+				send "&8> &e/&achat automsg&3- &eWlacza i wylacza automessage"
+				send "&8> &e/&achat bb &e<&atext&e> &3- &eOgloszenia co 5 minut"
+				send "&8> &e/&achat relaod &3- &ePrzeladowuje pliki"
+			else:
+				send "&e&l&m==============[{@tag}&e&l&m]=============="
+				send "&8> &eAutor pluginu: &aHiperk"
+				send "&8> &eWersja: &a%{x3ver}%"
+				send "&8> &eKontakt: &ahiperkx@gmail.com"
+				send "&e&l&m==============[{@tag}&e&l&m]=============="
 		if arg 1 is "on":
 			if player has permission "chat.admin.on":
 				if {chat} is true:
