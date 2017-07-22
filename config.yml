@@ -10,7 +10,7 @@
 # 8.chat.admin.automsg.toogle | 9.chat.admin.reload
 #
 #--------------------------------------------------------
-# Tag - Ustaw tak który będzie wyświetlny przy funkcjach
+# Tag - Ustaw tag który będzie wyświetlny przy funkcjach
 # Takich jak: cc/off/on
 tag: '&f&l[&aEX&bCORE&f&l]'
 #--------------------------------------------------------
@@ -38,16 +38,21 @@ Slowmode.time: '3'
 # True=Właczone False=Wyłączone
 Slowmode.Active: false
 #--------------------------------------------------------
+# AutoMSG.Time - Co jaki czas wyświela ogłoszenia
+# Dosępne czasy: 1=10s 2=15 3=20s 4=30s
+# Każdy inny numerek nie będzie działał
+AutoMSG.Time: 2
+#--------------------------------------------------------
 # AutoMSG.Active - Włacza i wyłacza automessage na czacie
 # Można właczyć i wyłączyć komenda /chat automsg
-# Domyślnie jest na false
+# Domyślnie jest wyłączone
 # Permisje -> chat.admin.automsg.toggle
 # True=Właczone False=Wyłączone
 AutoMSG.Active: false
 #--------------------------------------------------------
 # Automsg - Pozwala na dostosowanie wiadomosci
 # Które są wyświetlanie na czacie
-# Wysłanie wiadomości jest domyślnie co 25s
+# Wysłanie wiadomości jest domyślnie co 15s
 # Dodawanie nowych wiadomosci:
 # 4: 'Dowolny tekst' | I tak ciągle.
 automsg:
@@ -59,7 +64,7 @@ automsg:
 # BBCast pozwala na pisanie ogłoszeń co 5 min
 # Czas można zmienić w configu
 # True=Właczone False=Wyłączone
-BB.Cast.Active: true
+BB.Cast.Active: false
 #--------------------------------------------------------
 # BB.Cast.message - Pozwala dostosować wygląd Ogłoszeń
 # Zmienna: (nick) zostanie podmieniona na np. Kowalski
