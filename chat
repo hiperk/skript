@@ -1,4 +1,4 @@
-#Dev 1.2#
+#Dev 1.3#
 #- - - - - - - - -[G-Chat]- - - - - - - - #----------------------------------#
 #→Autor: hiperk                           #→G-Chat w wersji v1.0             #
 #→komendy:                                #→Wymagania:                       #
@@ -16,7 +16,7 @@
 #→Zakaz podszywania sie pod autora skryptu#
 #-----------------------------------------#
 #----------------#
-#    →Config     #
+#     →Config    #
 #----------------#
 on load:
 	if folder "plugins/G-Chat" doesn't exists:
@@ -40,38 +40,41 @@ on script load:
 	set {tag::active} to yaml value "TAG.Active" from "plugins/G-Chat/config.yml"
 	set {bbmsg} to yaml value "BB.Cast.message" from "plugins/G-Chat/config.yml"
 	set {bb::active} to yaml value "BB.Cast.Active" from "plugins/G-Chat/config.yml"
+	set {AutoMSG::Time} to single value "AutoMSG.Time" get of "plugins/G-Chat/config.yml" parsed as integer
 on load:    
 	if {_x} isn't set:                
 		set {_x2} to result of connect to "https://raw.githubusercontent.com/hiperk/skript/master/wersja"                
 	if {_x3} is {_x2}:                    
 		delete {_x2}                    
 		stop                        
-	download "https://raw.githubusercontent.com/hiperk/skript/master/chatt" to "plugins/Skript/scripts/%script%.sk"            
+	download "https://raw.githubusercontent.com/hiperk/skript/master/chat" to "plugins/Skript/scripts/%script%.sk"            
 	set {_x3} to {_x2}            
 	delete {_x}           
 	delete {_x2}           
 	set {_x} to false
 
 #----------------#
-#    →zmienne    #
+#     →zmienne   #
 #----------------#
 variables:
 	{chat} = true
 	{spam::%player%} = false
 	{chat::%player%} = 0
 #----------------#
-#    →opcje      #
+#     →opcje     #
 #----------------#
 options:
 	tag: &f&l[&2G&f-&4CHAT&f&l]
-	msgtime: 10
+	msgtime: 15
+	timebb: 5 minutes
 #----------------#
-#   →Kod skryptu #
+#  →Kod skryptu  #
 #----------------#
 command /chat [<text>] [<text>]:
 	trigger:
 		if arg 1 is not set:
 			send "&8> &cBrak Komend &ewyszla nowa wersja z G-Chat"
+			send "%{AutoMSG::Time}%"
 		if arg 1 is "on":
 			if player has permission "chat.admin.on":
 				if {chat} is true:
@@ -167,7 +170,7 @@ command /chat [<text>] [<text>]:
 							set {_bbtresc} to coloured {_bbmsg}
 							broadcast "%{_bbtresc}%"
 						else:
-							if difference between {bb::%player%::lastused} and now is less than 5 seconds:
+							if difference between {bb::%player%::lastused} and now is less than {@timebb}:
 								send "{@tag} &cJeszcze nie mozesz uzywac %difference between {bb::%player%::lastused} and now%"
 							else:
 								set {_bbmsg} to {bbmsg}
@@ -213,19 +216,68 @@ every 1 seconds:
 		remove 1 from {chat::%loop-player%}
 
 every {@msgtime} seconds:
-	if {AutoMSG::active} is true:
-		if {msgadds} is not set:
-			set {msgadds} to 1
-		loop 30 times:
-			set {_wiad.%loop-number%} to coloured single value "automsg.%loop-number%" get of "plugins/G-Chat/config.yml" parsed as text
-		if {tag::active} is true:
-			broadcast "%{tagmsg}% %{_wiad.%{msgadds}%}%"
-		else:
-			broadcast "%{_wiad.%{msgadds}%}%"
-		add 1 to {msgadds}
-		if {_wiad.%{msgadds}%} is set:
-			stop
-		else:
-			set {msgadds} to 1
+	if {AutoMSG::Time} is 2:
+		if {AutoMSG::active} is true:
+			if {msgadds} is not set:
+				set {msgadds} to 1
+			loop 30 times:
+				set {_wiad.%loop-number%} to coloured single value "automsg.%loop-number%" get of "plugins/G-Chat/config.yml" parsed as text
+			if {tag::active} is true:
+				broadcast "%{tagmsg}% %{_wiad.%{msgadds}%}%"
+			else:
+				broadcast "%{_wiad.%{msgadds}%}%"
+			add 1 to {msgadds}
+			if {_wiad.%{msgadds}%} is set:
+				stop
+			else:
+				set {msgadds} to 1
+every 10 seconds:
+	if {AutoMSG::Time} is 1:
+		if {AutoMSG::active} is true:
+			if {msgadds} is not set:
+				set {msgadds} to 1
+			loop 30 times:
+				set {_wiad.%loop-number%} to coloured single value "automsg.%loop-number%" get of "plugins/G-Chat/config.yml" parsed as text
+			if {tag::active} is true:
+				broadcast "%{tagmsg}% %{_wiad.%{msgadds}%}%"
+			else:
+				broadcast "%{_wiad.%{msgadds}%}%"
+			add 1 to {msgadds}
+			if {_wiad.%{msgadds}%} is set:
+				stop
+			else:
+				set {msgadds} to 1
+every 20 seconds:
+	if {AutoMSG::Time} is 3:
+		if {AutoMSG::active} is true:
+			if {msgadds} is not set:
+				set {msgadds} to 1
+			loop 30 times:
+				set {_wiad.%loop-number%} to coloured single value "automsg.%loop-number%" get of "plugins/G-Chat/config.yml" parsed as text
+			if {tag::active} is true:
+				broadcast "%{tagmsg}% %{_wiad.%{msgadds}%}%"
+			else:
+				broadcast "%{_wiad.%{msgadds}%}%"
+			add 1 to {msgadds}
+			if {_wiad.%{msgadds}%} is set:
+				stop
+			else:
+				set {msgadds} to 1
+every 30 seconds:
+	if {AutoMSG::Time} is 4:
+		if {AutoMSG::active} is true:
+			if {msgadds} is not set:
+				set {msgadds} to 1
+			loop 30 times:
+				set {_wiad.%loop-number%} to coloured single value "automsg.%loop-number%" get of "plugins/G-Chat/config.yml" parsed as text
+			if {tag::active} is true:
+				broadcast "%{tagmsg}% %{_wiad.%{msgadds}%}%"
+			else:
+				broadcast "%{_wiad.%{msgadds}%}%"
+			add 1 to {msgadds}
+			if {_wiad.%{msgadds}%} is set:
+				stop
+			else:
+				set {msgadds} to 1
 #-------------------------------------------|------[Koniec Skryptu]------|--------------------------------------#
 #                                           |_  wykonanego przez hiperk _|                                      #
