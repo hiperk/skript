@@ -1,4 +1,4 @@
-#Dev 1.5#
+#Dev 1.4#
 #- - - - - - - - -[G-Chat]- - - - - - - - #----------------------------------#
 #→Autor: hiperk                           #→G-Chat w wersji v1.0             #
 #→komendy:                                #→Wymagania:                       #
@@ -33,13 +33,13 @@ on load:
 on script load:
 	set {tagserv} to colored single value "tag" get of "plugins/G-Chat/config.yml"
 	set {slowmodetime} to single value "Slowmode.time" get of "plugins/G-Chat/config.yml" parsed as integer
-	set {slowmode} to yaml value "Slowmode.Active" from "plugins/G-Chat/config.yml"
+	set {slowmode} to yaml value "Slowmode.Enable" from "plugins/G-Chat/config.yml"
 	set {automsg::*} to configuration section "automsg" get of "plugins/G-Chat/config.yml"
-	set {AutoMSG::active} to yaml value "AutoMSG.Active" from "plugins/G-Chat/config.yml"
+	set {AutoMSG::active} to yaml value "AutoMSG.Enable" from "plugins/G-Chat/config.yml"
 	set {tagmsg} to colored single value "TAG.AutoMsg" get of "plugins/G-Chat/config.yml"
-	set {tag::active} to yaml value "TAG.Active" from "plugins/G-Chat/config.yml"
+	set {tag::active} to yaml value "TAG.Enable" from "plugins/G-Chat/config.yml"
 	set {bbmsg} to yaml value "BB.Cast.message" from "plugins/G-Chat/config.yml"
-	set {bb::active} to yaml value "BB.Cast.Active" from "plugins/G-Chat/config.yml"
+	set {bb::active} to yaml value "BB.Cast.Enable" from "plugins/G-Chat/config.yml"
 	set {AutoMSG::Time} to single value "AutoMSG.Time" get of "plugins/G-Chat/config.yml" parsed as integer
 on load:    
 	if {xver} isn't set:                
