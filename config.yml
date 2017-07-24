@@ -19,16 +19,16 @@ tag: '&f&l[&aEX&bCORE&f&l]'
 # Będzie wyświetlane przed każda wiadomością
 TAG.AutoMsg: '&f&l[&aInfo&f&l]'
 #--------------------------------------------------------
-# TAG.Active - Jeśli ustawisz na true
+# TAG.Enable - Jeśli ustawisz na true
 # Będzie wystietlat prefiks który ustaliłeś powyżej
 # True=Właczone False=Wyłączone
-TAG.Active: false
+TAG.Enable: false
 #--------------------------------------------------------
 # Slowmode.time - Co ile czasu gracz moze pisać na czacie
 # Domyślnie jest na 3s
 Slowmode.time: '3'
 #--------------------------------------------------------
-# Slowmode.Active - Włacza slowmode na czaie
+# Slowmode.Enable - Włacza slowmode na czaie
 # Powysze ustawienie pazwala na ustalenie
 # Co ile można pisąć na czacie
 # Możnna włączyć i wyłączyć komenda /chat slowmode
@@ -36,19 +36,19 @@ Slowmode.time: '3'
 # Permisje -> chat.admin.slowmode.toggle
 # Pemisje aby admin nie musiał czekać -> chat.slowmode
 # True=Właczone False=Wyłączone
-Slowmode.Active: false
+Slowmode.Enable: false
 #--------------------------------------------------------
 # AutoMSG.Time - Co jaki czas wyświela ogłoszenia
 # Dosępne czasy: 1=10s 2=15 3=20s 4=30s
 # Każdy inny numerek nie będzie działał
 AutoMSG.Time: 2
 #--------------------------------------------------------
-# AutoMSG.Active - Włacza i wyłacza automessage na czacie
+# AutoMSG.Enable - Włacza i wyłacza automessage na czacie
 # Można właczyć i wyłączyć komenda /chat automsg
 # Domyślnie jest wyłączone
 # Permisje -> chat.admin.automsg.toggle
 # True=Właczone False=Wyłączone
-AutoMSG.Active: false
+AutoMSG.Enable: false
 #--------------------------------------------------------
 # Automsg - Pozwala na dostosowanie wiadomosci
 # Które są wyświetlanie na czacie
@@ -60,11 +60,11 @@ automsg:
   2: '&4Ustaw wiadomosc automessage &c/plugins/G-Chat/config.yml'
   3: '&eUstaw wiadomosc automessage &c/plugins/G-Chat/config.yml'
 #--------------------------------------------------------
-# BB.Cast.Active - Włacza i Wyłacza komende /chat bb
+# BB.Cast.Enable - Włacza i Wyłacza komende /chat bb
 # BBCast pozwala na pisanie ogłoszeń co 5 min
 # Czas można zmienić w configu
 # True=Właczone False=Wyłączone
-BB.Cast.Active: false
+BB.Cast.Enable: false
 #--------------------------------------------------------
 # BB.Cast.message - Pozwala dostosować wygląd Ogłoszeń
 # Zmienna: (nick) zostanie podmieniona na np. Kowalski
