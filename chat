@@ -1,4 +1,4 @@
-#Dev 1.4#
+#Dev 1.5#
 #- - - - - - - - -[G-Chat]- - - - - - - - #----------------------------------#
 #→Autor: hiperk                           #→G-Chat w wersji v1.0             #
 #→komendy:                                #→Wymagania:                       #
@@ -60,12 +60,13 @@ variables:
 	{chat} = true
 	{spam::%player%} = false
 	{chat::%player%} = 0
+	{Timercore} = 5
 #----------------#
 #     →opcje     #
 #----------------#
 options:
 	tag: &f&l[&2G&f-&4CHAT&f&l]
-	msgtime: 15
+	msgtime: 1
 	timebb: 5 minutes
 #----------------#
 #  →Kod skryptu  #
@@ -228,66 +229,21 @@ on chat:
 every 1 seconds:
 	loop all players:
 		remove 1 from {chat::%loop-player%}
+		remove 1 from {AutoMSGTime}
 
 every {@msgtime} seconds:
-	if {AutoMSG::Time} is 2:
-		if {AutoMSG::active} is true:
+	if {AutoMSG::active} is true:
+		if {AutoMSGTime} < {Timercore}:
 			if {msgadds} is not set:
 				set {msgadds} to 1
-			loop 30 times:
+			loop 50 times:
 				set {_wiad.%loop-number%} to coloured single value "automsg.%loop-number%" get of "plugins/G-Chat/config.yml" parsed as text
 			if {tag::active} is true:
 				broadcast "%{tagmsg}% %{_wiad.%{msgadds}%}%"
+				set {AutoMSGTime} to {AutoMSG::Time}
 			else:
 				broadcast "%{_wiad.%{msgadds}%}%"
-			add 1 to {msgadds}
-			if {_wiad.%{msgadds}%} is set:
-				stop
-			else:
-				set {msgadds} to 1
-every 10 seconds:
-	if {AutoMSG::Time} is 1:
-		if {AutoMSG::active} is true:
-			if {msgadds} is not set:
-				set {msgadds} to 1
-			loop 30 times:
-				set {_wiad.%loop-number%} to coloured single value "automsg.%loop-number%" get of "plugins/G-Chat/config.yml" parsed as text
-			if {tag::active} is true:
-				broadcast "%{tagmsg}% %{_wiad.%{msgadds}%}%"
-			else:
-				broadcast "%{_wiad.%{msgadds}%}%"
-			add 1 to {msgadds}
-			if {_wiad.%{msgadds}%} is set:
-				stop
-			else:
-				set {msgadds} to 1
-every 20 seconds:
-	if {AutoMSG::Time} is 3:
-		if {AutoMSG::active} is true:
-			if {msgadds} is not set:
-				set {msgadds} to 1
-			loop 30 times:
-				set {_wiad.%loop-number%} to coloured single value "automsg.%loop-number%" get of "plugins/G-Chat/config.yml" parsed as text
-			if {tag::active} is true:
-				broadcast "%{tagmsg}% %{_wiad.%{msgadds}%}%"
-			else:
-				broadcast "%{_wiad.%{msgadds}%}%"
-			add 1 to {msgadds}
-			if {_wiad.%{msgadds}%} is set:
-				stop
-			else:
-				set {msgadds} to 1
-every 30 seconds:
-	if {AutoMSG::Time} is 4:
-		if {AutoMSG::active} is true:
-			if {msgadds} is not set:
-				set {msgadds} to 1
-			loop 30 times:
-				set {_wiad.%loop-number%} to coloured single value "automsg.%loop-number%" get of "plugins/G-Chat/config.yml" parsed as text
-			if {tag::active} is true:
-				broadcast "%{tagmsg}% %{_wiad.%{msgadds}%}%"
-			else:
-				broadcast "%{_wiad.%{msgadds}%}%"
+				set {AutoMSGTime} to {AutoMSG::Time}
 			add 1 to {msgadds}
 			if {_wiad.%{msgadds}%} is set:
 				stop
