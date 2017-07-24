@@ -38,10 +38,10 @@ Slowmode.time: '3'
 # True=Właczone False=Wyłączone
 Slowmode.Enable: false
 #--------------------------------------------------------
-# AutoMSG.Time - Co jaki czas wyświela ogłoszenia
-# Dosępne czasy: 1=10s 2=15 3=20s 4=30s
-# Każdy inny numerek nie będzie działał
-AutoMSG.Time: 2
+# AutoMSG.Time - Co ustalony czas wyświela ogłoszenia
+# Czas ustawiamy tylko w sekundach
+# Domyślnie jest co 10s
+AutoMSG.Time: 
 #--------------------------------------------------------
 # AutoMSG.Enable - Włacza i wyłacza automessage na czacie
 # Można właczyć i wyłączyć komenda /chat automsg
