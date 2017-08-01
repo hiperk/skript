@@ -41,10 +41,10 @@ on script load:
 	set {bbmsg} to yaml value "BB.Cast.message" from "plugins/G-Chat/config.yml"
 	set {bb::active} to yaml value "BB.Cast.Enable" from "plugins/G-Chat/config.yml"
 	set {AutoMSG::Time} to single value "AutoMSG.Time" get of "plugins/G-Chat/config.yml" parsed as integer
-	set {info::on} to colored single value "chat.view.on" get of "plugins/G-Chat/config.yml"
-	set {info::off} to colored single value "chat.view.off" get of "plugins/G-Chat/config.yml"
-	set {info::reson} to colored single value "chat.view.reson" get of "plugins/G-Chat/config.yml"
-	set {info::cc} to colored single value "chat.view.cc" get of "plugins/G-Chat/config.yml"
+	set {info::on} to colored single value "Chat.view.on" get of "plugins/G-Chat/config.yml"
+	set {info::off} to colored single value "Chat.view.off" get of "plugins/G-Chat/config.yml"
+	set {info::reson} to colored single value "Chat.view.reson" get of "plugins/G-Chat/config.yml"
+	set {info::cc} to colored single value "Chat.view.cc" get of "plugins/G-Chat/config.yml"
 on load:    
 	if {xver} isn't set:                
 		set {x2ver} to result of connect to "https://raw.githubusercontent.com/hiperk/skript/master/wersja"                
@@ -56,6 +56,20 @@ on load:
 	delete {xver}           
 	delete {x2ver}           
 	set {xver} to false
+on script unload:
+	delete {tagserv}
+	delete {slowmodetime}
+	delete {slowmode}
+	delete {automsg::*}
+	delete {AutoMSG::active}
+	delete {tagmsg}
+	delete {tag::active}
+	delete {AutoMSG::Time}
+	delete {info::on}
+	delete {info::off}
+	delete {info::reson}
+	delete {info::cc}
+	delete {xver}
 
 #----------------#
 #     →zmienne   #
