@@ -41,6 +41,10 @@ on script load:
 	set {bbmsg} to yaml value "BB.Cast.message" from "plugins/G-Chat/config.yml"
 	set {bb::active} to yaml value "BB.Cast.Enable" from "plugins/G-Chat/config.yml"
 	set {AutoMSG::Time} to single value "AutoMSG.Time" get of "plugins/G-Chat/config.yml" parsed as integer
+	set {info::on} to colored single value "chat.view.on" get of "plugins/G-Chat/config.yml"
+	set {info::off} to colored single value "chat.view.off" get of "plugins/G-Chat/config.yml"
+	set {info::reson} to colored single value "chat.view.reson" get of "plugins/G-Chat/config.yml"
+	set {info::cc} to colored single value "chat.view.cc" get of "plugins/G-Chat/config.yml"
 on load:    
 	if {xver} isn't set:                
 		set {x2ver} to result of connect to "https://raw.githubusercontent.com/hiperk/skript/master/wersja"                
@@ -93,13 +97,15 @@ command /chat [<text>] [<text>]:
 		if arg 1 is "on":
 			if player has permission "chat.admin.on":
 				if {chat} is true:
+					set {_info::on} to {info::on}
+					replace all "(nick)" with "%player%" in {_info::on}
 					set {chat} to false
 					set {ChatReson::active}  to false
 					clear {ChatReson}
 					broadcast ""
 					broadcast "                     %{tagserv}%"
 					broadcast ""
-					broadcast "&8> &aChat zostal wlaczony przez &8%player%"
+					broadcast "%{_info::on}%"
 					broadcast ""
 					broadcast ""
 				else:
@@ -110,24 +116,34 @@ command /chat [<text>] [<text>]:
 			if player has permission "chat.admin.off":
 				if {chat} is false:
 					if arg 2 is not set:
+						set {_info::off} to {info::off}
+						set {_info::reson} to {info::reson}
+						replace all "(nick)" with "%player%" in {_info::off}
+						replace all "(tresc)" with "%arg 2%" in {_info::reson}
+						replace all "(nick)" with "%player%" in {_info::reson}
 						set {chat} to true
 						set {ChatReson::active}  to false
 						broadcast ""
 						broadcast "                     %{tagserv}%"
 						broadcast ""
-						broadcast "&8> &aChat zostal wylaczony przez &8%player%"
+						broadcast "%{_info::off}%"
 						broadcast ""
 						broadcast ""
 					else:
+						set {_info::off} to {info::off}
+						set {_info::reson} to {info::reson}
+						replace all "(nick)" with "%player%" in {_info::off}
+						replace all "(tresc)" with "%arg 2%" in {_info::reson}
+						replace all "(nick)" with "%player%" in {_info::reson}
 						set {chat} to true
 						set {ChatReson::active}  to true
 						set {ChatReson} to arg 2
 						broadcast ""
 						broadcast "                     %{tagserv}%"
 						broadcast ""
-						broadcast "&8> &aChat zostal wylaczony przez &8%player%"
+						broadcast "%{_info::off}%"
 						broadcast ""
-						broadcast "&8> &aPowód: &c%arg 2%"
+						broadcast "%{_info::reson}%"
 						broadcast ""
 				else:
 					send "{@tag} &4Chat aktualnie jest wylaczony"
@@ -135,12 +151,14 @@ command /chat [<text>] [<text>]:
 				send "{@tag} &4Nie masz uprawnien do tej komendy &7(chat.admin.off)"
 		if arg 1 is "cc" or "c" or "wyczysc" or "clear":
 			if player has permission "chat.admin.cc":
+				set {_info::cc} to {info::cc}
+				replace all "(nick)" with "%player%" in {_info::cc}
 				loop all players:
 					loop 150 times:
 						send " " to loop-player
 					send "                     %{tagserv}%" to loop-player
 					send "" to loop-player
-					send "&8> &aChat zostal wyczyszczony przez &8%player%" to loop-player
+					send "%{_info::cc}%" to loop-player
 					send "" to loop-player
 					send "" to loop-player
 					send "" to loop-player
