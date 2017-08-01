@@ -1,4 +1,4 @@
-#Dev 1.5#
+#Dev 1.6#
 #- - - - - - - - -[G-Chat]- - - - - - - - #----------------------------------#
 #→Autor: hiperk                           #→G-Chat w wersji v1.0             #
 #→komendy:                                #→Wymagania:                       #
@@ -135,15 +135,16 @@ command /chat [<text>] [<text>]:
 				send "{@tag} &4Nie masz uprawnien do tej komendy &7(chat.admin.off)"
 		if arg 1 is "cc" or "c" or "wyczysc" or "clear":
 			if player has permission "chat.admin.cc":
-				loop 150 times:
-					broadcast " "
-				broadcast "                     %{tagserv}%"
-				broadcast ""
-				broadcast "&8> &aChat zostal wyczyszczony przez &8%player%"
-				broadcast ""
-				broadcast ""
-				broadcast ""
-				broadcast ""
+				loop all players:
+					loop 150 times:
+						send " " to loop-player
+					send "                     %{tagserv}%" to loop-player
+					send "" to loop-player
+					send "&8> &aChat zostal wyczyszczony przez &8%player%" to loop-player
+					send "" to loop-player
+					send "" to loop-player
+					send "" to loop-player
+					send "" to loop-player
 			else:
 				send "{@tag} &4Nie masz uprawnien do tej komendy &7(chat.admin.cc)"
 		if arg 1 is "reload":
