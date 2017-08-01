@@ -41,7 +41,7 @@ Slowmode.Enable: false
 # AutoMSG.Time - Co ustalony czas wyświela ogłoszenia
 # Czas ustawiamy tylko w sekundach
 # Domyślnie jest co 10s
-AutoMSG.Time: 
+AutoMSG.Time:  10
 #--------------------------------------------------------
 # AutoMSG.Enable - Włacza i wyłacza automessage na czacie
 # Można właczyć i wyłączyć komenda /chat automsg
@@ -71,4 +71,24 @@ BB.Cast.Enable: false
 # Zmienna: (tersc) zostanie podmieniona na tresc
 # Którą Kowalski wpisze na czacie /chat bb <tresc>
 BB.Cast.message: '&e&l[&a&lBBCore&e&l]&a[&e(nick)&a] &7(tresc)'
+#--------------------------------------------------------
+# Chat.view.on - Pozwala na dowolne skonfigurowanie
+# czatu pod siebie
+# Dozwolone zmienne: (nick)
+Chat.view.on: '&8> &aChat zostal wlaczony przez &8(nick)'
+#--------------------------------------------------------
+# Chat.view.off - Pozwala na dowolne skonfigurowanie
+# czatu pod siebie
+# Dozwolone zmienne: (nick)
+Chat.view.off: '&8> &aChat zostal wylaczony przez &8(nick)'
+#--------------------------------------------------------
+# Chat.view.reson - Pozwala na dowolne skonfigurowanie
+# czatu pod siebie
+# Dozwolone zmienne: (nick), (tresc)
+Chat.view.reson: '&8> &aPowód: &c(tresc)'
+#--------------------------------------------------------
+# Chat.view.cc - Pozwala na dowolne skonfigurowanie
+# czatu pod siebie
+# Dozwolone zmienne: (nick)
+Chat.view.cc: '&8> &aChat zostal wyczyszczony przez &8(nick)'
 #--------------------------------------------------------
