@@ -1,4 +1,4 @@
-#Dev 1.7#
+#Dev 1.8#
 #- - - - - - - - -[G-Chat]- - - - - - - - #----------------------------------#
 #→Autor: hiperk                           #→G-Chat w wersji v1.0             #
 #→komendy:                                #→Wymagania:                       #
@@ -70,7 +70,6 @@ on script unload:
 	delete {info::reson}
 	delete {info::cc}
 	delete {xver}
-	delete {gchat::update}
 
 #----------------#
 #     →zmienne   #
@@ -234,6 +233,21 @@ command /chat [<text>] [<text>]:
 					send "{@tag} &4BB-Coast jest wylaczone"
 			else:
 				send "{@tag} &4Nie masz uprawnien do tej komendy &7(chat.vip.bb)"
+		if arg 1 is "checkupdate" or "aktulizacja" or "ver" or "version":
+			if player has permission "chat.admin.checkupdate":
+				set {x2ver} to result of connect to "https://raw.githubusercontent.com/hiperk/skript/master/wersja"
+				if arg 2 is "pobierz" or "download" or "dl":
+					download "https://raw.githubusercontent.com/hiperk/skript/master/chat" to "plugins/Skript/scripts/%script%.sk"
+					send "{@tag} &aPobrales najnowsza wersje skriptu &7%{x2ver}%"
+				else if arg 2 is not set:
+					if {_x3ver} isn't {x2ver}:
+						send "{@tag} &aWyszla nowa wersja &7%{x2ver}% &a,aktualna werjsa to &7%{x2ver}%"
+						send "{@tag} &eAby pobrac najnowsza wersje wpisz komende &3/chat aktulizacja pobierz"
+						stop
+					else:
+						send "{@tag} &aMasz aktualna wersje &7%{x3ver}%"
+						stop
+
 #-------------------------------------------|------[Koniec Kodu]------|--------------------------------------#
 #----------------#
 #   →Wydarzenia  #
