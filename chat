@@ -47,8 +47,9 @@ on script load:
 	set {info::cc} to colored single value "Chat.view.cc" get of "plugins/G-Chat/config.yml"
 	set {gchat::update} to yaml value "AutoUpdate.Enable" from "plugins/G-Chat/config.yml"
 on load:    
-	if {xver} isn't set:                
-		set {x2ver} to result of connect to "https://raw.githubusercontent.com/hiperk/skript/master/wersja"                
+	if {xver} isn't set:
+		if {gchat::update} is true:           
+			set {x2ver} to result of connect to "https://raw.githubusercontent.com/hiperk/skript/master/wersja"                
 	if {x3ver} is {x2ver}:                    
 		delete {x2ver}                    
 		stop
@@ -235,6 +236,7 @@ command /chat [<text>] [<text>]:
 				send "{@tag} &4Nie masz uprawnien do tej komendy &7(chat.vip.bb)"
 		if arg 1 is "checkupdate" or "aktulizacja" or "ver" or "version":
 			if player has permission "chat.admin.checkupdate":
+				delete {x2ver}
 				set {x2ver} to result of connect to "https://raw.githubusercontent.com/hiperk/skript/master/wersja"
 				if arg 2 is "pobierz" or "download" or "dl":
 					download "https://raw.githubusercontent.com/hiperk/skript/master/chat" to "plugins/Skript/scripts/%script%.sk"
