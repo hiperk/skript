@@ -1,4 +1,4 @@
-#Dev 1.8#
+#Dev 1.9#
 #- - - - - - - - -[G-Chat]- - - - - - - - #----------------------------------#
 #→Autor: hiperk                           #→G-Chat w wersji v1.0             #
 #→komendy:                                #→Wymagania:                       #
@@ -41,10 +41,10 @@ on script load:
 	set {bbmsg} to yaml value "BB.Cast.message" from "plugins/G-Chat/config.yml"
 	set {bb::active} to yaml value "BB.Cast.Enable" from "plugins/G-Chat/config.yml"
 	set {AutoMSG::Time} to single value "AutoMSG.Time" get of "plugins/G-Chat/config.yml" parsed as integer
-	set {info::on} to colored single value "Chat.view.on" get of "plugins/G-Chat/config.yml"
-	set {info::off} to colored single value "Chat.view.off" get of "plugins/G-Chat/config.yml"
-	set {info::reson} to colored single value "Chat.view.reson" get of "plugins/G-Chat/config.yml"
-	set {info::cc} to colored single value "Chat.view.cc" get of "plugins/G-Chat/config.yml"
+	set {info::on::*} to yaml list "Chat.view.on" from file "plugins/G-Chat/config.yml"
+	set {info::off::*} to yaml list "Chat.view.off" from file "plugins/G-Chat/config.yml"
+	set {info::reson::*} to yaml list "Chat.view.reson" from file "plugins/G-Chat/config.yml"
+	set {info::cc::*} to yaml list "Chat.view.cc" from file "plugins/G-Chat/config.yml"
 	set {gchat::update} to yaml value "AutoUpdate.Enable" from "plugins/G-Chat/config.yml"
 on load:    
 	if {xver} isn't set:
@@ -66,10 +66,10 @@ on script unload:
 	delete {tagmsg}
 	delete {tag::active}
 	delete {AutoMSG::Time}
-	delete {info::on}
-	delete {info::off}
-	delete {info::reson}
-	delete {info::cc}
+	delete {info::on::*}
+	delete {info::off::*}
+	delete {info::reson::*}
+	delete {info::cc::*}
 	delete {xver}
 
 #----------------#
@@ -112,17 +112,14 @@ command /chat [<text>] [<text>]:
 		if arg 1 is "on":
 			if player has permission "chat.admin.on":
 				if {chat} is true:
-					set {_info::on} to {info::on}
-					replace all "(nick)" with "%player%" in {_info::on}
+					replace all "(nick)" with "%player%" in {info::on::*}
+					replace all "(tag)" with "%{tagserv}%" in {info::on::*}
 					set {chat} to false
 					set {ChatReson::active}  to false
 					clear {ChatReson}
-					broadcast ""
-					broadcast "                     %{tagserv}%"
-					broadcast ""
-					broadcast "%{_info::on}%"
-					broadcast ""
-					broadcast ""
+					loop all players:
+						loop {info::on::*}:
+							send "%loop-value-2%" to loop-player
 				else:
 					send "{@tag} &4Chat aktualnie jest wlaczony"
 			else:
@@ -131,53 +128,36 @@ command /chat [<text>] [<text>]:
 			if player has permission "chat.admin.off":
 				if {chat} is false:
 					if arg 2 is not set:
-						set {_info::off} to {info::off}
-						set {_info::reson} to {info::reson}
-						replace all "(nick)" with "%player%" in {_info::off}
-						replace all "(tresc)" with "%arg 2%" in {_info::reson}
-						replace all "(nick)" with "%player%" in {_info::reson}
+						replace all "(nick)" with "%player%" in {info::off::*}
+						replace all "(tag)" with "%{tagserv}%" in {info::off::*}
 						set {chat} to true
-						set {ChatReson::active}  to false
-						broadcast ""
-						broadcast "                     %{tagserv}%"
-						broadcast ""
-						broadcast "%{_info::off}%"
-						broadcast ""
-						broadcast ""
+						set {ChatReson::active} to false
+						loop all players:
+							loop {info::off::*}:
+								send "%loop-value-2%" to loop-player
 					else:
-						set {_info::off} to {info::off}
-						set {_info::reson} to {info::reson}
-						replace all "(nick)" with "%player%" in {_info::off}
-						replace all "(tresc)" with "%arg 2%" in {_info::reson}
-						replace all "(nick)" with "%player%" in {_info::reson}
+						replace all "(tresc)" with "%arg 2%" in {info::reson::*}
+						replace all "(nick)" with "%player%" in {info::reson::*}
+						replace all "(tag)" with "%{tagserv}%" in {info::reson::*}
 						set {chat} to true
 						set {ChatReson::active}  to true
 						set {ChatReson} to arg 2
-						broadcast ""
-						broadcast "                     %{tagserv}%"
-						broadcast ""
-						broadcast "%{_info::off}%"
-						broadcast ""
-						broadcast "%{_info::reson}%"
-						broadcast ""
+						loop all players:
+							loop {info::reson::*}:
+								send "%loop-value-2%" to loop-player
 				else:
 					send "{@tag} &4Chat aktualnie jest wylaczony"
 			else:
 				send "{@tag} &4Nie masz uprawnien do tej komendy &7(chat.admin.off)"
 		if arg 1 is "cc" or "c" or "wyczysc" or "clear":
 			if player has permission "chat.admin.cc":
-				set {_info::cc} to {info::cc}
-				replace all "(nick)" with "%player%" in {_info::cc}
+				replace all "(nick)" with "%player%" in {info::cc::*}
+				replace all "(tag)" with "%{tagserv}%" in {info::cc::*}
 				loop all players:
 					loop 150 times:
 						send " " to loop-player
-					send "                     %{tagserv}%" to loop-player
-					send "" to loop-player
-					send "%{_info::cc}%" to loop-player
-					send "" to loop-player
-					send "" to loop-player
-					send "" to loop-player
-					send "" to loop-player
+					loop {info::cc::*}:
+						send "%loop-value-2%"
 			else:
 				send "{@tag} &4Nie masz uprawnien do tej komendy &7(chat.admin.cc)"
 		if arg 1 is "reload":
@@ -231,7 +211,7 @@ command /chat [<text>] [<text>]:
 					else:
 						send "{@tag} &eUzyj: &a/&echat bb &a<&eWiaodmosc&a>"
 				else:
-					send "{@tag} &4BB-Coast jest wylaczone"
+					send "{@tag} &4BB-Cast jest wylaczone"
 			else:
 				send "{@tag} &4Nie masz uprawnien do tej komendy &7(chat.vip.bb)"
 		if arg 1 is "checkupdate" or "aktulizacja" or "ver" or "version":
@@ -249,7 +229,6 @@ command /chat [<text>] [<text>]:
 					else:
 						send "{@tag} &aMasz aktualna wersje &7%{x3ver}%"
 						stop
-
 #-------------------------------------------|------[Koniec Kodu]------|--------------------------------------#
 #----------------#
 #   →Wydarzenia  #
