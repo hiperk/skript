@@ -16,7 +16,7 @@ AutoUpdate.Enable: false
 #--------------------------------------------------------
 # Tag - Ustaw tag który będzie wyświetlny przy funkcjach
 # Takich jak: cc/off/on
-tag: '&f&l[&aEX&bCORE&f&l]'
+tag: '                     &e&l<&3EX&aCORE&e&l>'
 #--------------------------------------------------------
 # TAG.AutoMsg - Ustawia tag dla automessage
 # Np. &f[&aInfo&f]
@@ -77,22 +77,41 @@ BB.Cast.Enable: false
 BB.Cast.message: '&e&l[&a&lBBCore&e&l]&a[&e(nick)&a] &7(tresc)'
 #--------------------------------------------------------
 # Chat.view.on - Pozwala na dowolne skonfigurowanie
-# czatu pod siebie
-# Dozwolone zmienne: (nick)
-Chat.view.on: '&8> &aChat zostal wlaczony przez &8(nick)'
+# Czatu pod swoj serwer
+# Dozwolone zmienne: (nick), (tag)
+Chat.view.on:
+- ' '
+- '(tag)'
+- ' '
+- '&9> &aChat zostal wlaczony przez &7(nick)'
+- ' '
+- ' '
 #--------------------------------------------------------
 # Chat.view.off - Pozwala na dowolne skonfigurowanie
-# czatu pod siebie
-# Dozwolone zmienne: (nick)
-Chat.view.off: '&8> &aChat zostal wylaczony przez &8(nick)'
+# Czatu pod swoj serwer
+# Dozwolone zmienne: (nick), (tag)
+Chat.view.off:
+- ' '
+- '(tag)'
+- ' '
+- '&9> &aChat zostal wylaczony przez &7(nick)'
+- ' '
+- ' '
 #--------------------------------------------------------
 # Chat.view.reson - Pozwala na dowolne skonfigurowanie
-# czatu pod siebie
-# Dozwolone zmienne: (nick), (tresc)
-Chat.view.reson: '&8> &aPowód: &c(tresc)'
+# Czatu pod swoj serwer
+# Dozwolone zmienne: (nick), (tresc), (tag)
+Chat.view.reson:
+- ' '
+- '(tag)'
+- ' '
+- '&9> &aChat zostal wylaczony przez &7(nick)'
+- '&9> &aPowód: &c(tresc)'
+- ' '
 #--------------------------------------------------------
 # Chat.view.cc - Pozwala na dowolne skonfigurowanie
-# czatu pod siebie
-# Dozwolone zmienne: (nick)
-Chat.view.cc: '&8> &aChat zostal wyczyszczony przez &8(nick)'
+# Czatu pod swoj serwer
+# Dozwolone zmienne: (nick), (tag)
+Chat.view.cc: 
+- '&9> &aChat zostal wyczyszczony przez &7(nick)'
 #--------------------------------------------------------
