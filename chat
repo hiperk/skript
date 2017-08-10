@@ -1,13 +1,14 @@
-#Dev 1.9#
+#Dev 2.0#
 #- - - - - - - - -[G-Chat]- - - - - - - - #----------------------------------#
 #→Autor: hiperk                           #→G-Chat w wersji v1.0             #
 #→komendy:                                #→Wymagania:                       #
 #→/chat cc - czyści chat                  #→Skript wersja 2.0.2 (lub nowsza) #
-#→/chat off - blokuje chat                #→WildSkript na 1.9                #
+#→/chat off <powod> - blokuje chat        #→WildSkript na 1.9                #
 #→/chat on - odblokowywuje chat           #→SkQuery Najnowsze                #   
 #→/chat slowmode - pomoc odnośnie skryptu #----------------------------------#
 #→/chat automsg - wlacza automessage      #
 #→/chat bb - Ogloszenia co 5 minut        #
+#→/chat checkupdate - Sprawdza aktulizacje#
 #- - - - - - - - -[G-Chat]- - - - - - - - #
 #----------------licencja-----------------#
 #→Zezwalam na edycję skryptu              #
@@ -54,10 +55,10 @@ on load:
 		delete {x2ver}                    
 		stop
 	if {gchat::update} is true:
-		download "https://raw.githubusercontent.com/hiperk/skript/master/chat" to "plugins/Skript/scripts/%script%.sk"            
+		download "https://aw.githubusercontent.com/hiperk/skript/master/chat" to "plugins/Skript/scripts/%script%.sk"            
 	set {x3ver} to {x2ver}
 	delete {x2ver}
-on script unload:
+on script disable:
 	delete {tagserv}
 	delete {slowmodetime}
 	delete {slowmode}
@@ -216,14 +217,14 @@ command /chat [<text>] [<text>]:
 				send "{@tag} &4Nie masz uprawnien do tej komendy &7(chat.vip.bb)"
 		if arg 1 is "checkupdate" or "aktulizacja" or "ver" or "version":
 			if player has permission "chat.admin.checkupdate":
-				delete {x2ver}
-				set {x2ver} to result of connect to "https://raw.githubusercontent.com/hiperk/skript/master/wersja"
+				set {_x2ver} to result of connect to "https://raw.githubusercontent.com/hiperk/skript/master/wersja"
 				if arg 2 is "pobierz" or "download" or "dl":
 					download "https://raw.githubusercontent.com/hiperk/skript/master/chat" to "plugins/Skript/scripts/%script%.sk"
-					send "{@tag} &aPobrales najnowsza wersje skriptu &7%{x2ver}%"
+					send "{@tag} &aPobrales najnowsza wersje skriptu &7%{_x2ver}%"
+					set {x3ver} to {_x2ver}
 				else if arg 2 is not set:
-					if {_x3ver} isn't {x2ver}:
-						send "{@tag} &aWyszla nowa wersja &7%{x2ver}% &a,aktualna werjsa to &7%{x2ver}%"
+					if {x3ver} isn't {_x2ver}:
+						send "{@tag} &aWyszla nowa wersja &7%{_x2ver}%,&a aktualnie uzywac wersji &7%{x3ver}%"
 						send "{@tag} &eAby pobrac najnowsza wersje wpisz komende &3/chat aktulizacja pobierz"
 						stop
 					else:
@@ -256,10 +257,11 @@ on chat:
 						set {chat::%player%} to {slowmodetime}
 						stop
 every 1 seconds:
-	loop all players:
-		remove 1 from {chat::%loop-player%}
+	if {AutoMSG::active} is true:
 		remove 1 from {AutoMSGTime}
-
+	if {slowmode} is true:
+		loop all players:
+			remove 1 from {chat::%loop-player%}
 every {@msgtime} seconds:
 	if {AutoMSG::active} is true:
 		if {AutoMSGTime} < {Timercore}:
