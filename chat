@@ -55,7 +55,7 @@ on load:
 		delete {x2ver}                    
 		stop
 	if {gchat::update} is true:
-		download "https://raw.githubusercontent.com/hiperk/skript/master/chat" to "plugins/Skript/scripts/%script%.sk"            
+		download "https://aw.githubusercontent.com/hiperk/skript/master/chat" to "plugins/Skript/scripts/%script%.sk"            
 	set {x3ver} to {x2ver}
 	delete {x2ver}
 on script disable:
@@ -219,9 +219,9 @@ command /chat [<text>] [<text>]:
 			if player has permission "chat.admin.checkupdate":
 				set {_x2ver} to result of connect to "https://raw.githubusercontent.com/hiperk/skript/master/wersja"
 				if arg 2 is "pobierz" or "download" or "dl":
-					download "https://raw.githubusercontent.com/hiperk/skript/master/chat" to "plugins/Skript/scripts/%script%.sk"
-					send "{@tag} &aPobrales najnowsza wersje skriptu &7%{_x2ver}%"
 					set {x3ver} to {_x2ver}
+					download "https://raw.githubusercontent.com/hiperk/skript/master/chat" to "plugins/Skript/scripts/%script%.sk"
+					send "{@tag} &aPobrales najnowsza wersje skriptu &7%{x3ver}%"
 				else if arg 2 is not set:
 					if {x3ver} isn't {_x2ver}:
 						send "{@tag} &aWyszla nowa wersja &7%{_x2ver}%,&a aktualnie uzywac wersji &7%{x3ver}%"
