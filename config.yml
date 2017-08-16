@@ -60,15 +60,30 @@ AutoMSG.Enable: false
 # Dodawanie nowych wiadomosci:
 # 4: 'Dowolny tekst' | I tak ciągle.
 automsg:
-  1: '&2Ustaw wiadomosc automessage &c/plugins/G-Chat/config.yml'
-  2: '&4Ustaw wiadomosc automessage &c/plugins/G-Chat/config.yml'
-  3: '&eUstaw wiadomosc automessage &c/plugins/G-Chat/config.yml'
+  1: 
+    cast:
+    - '&7==============( &c#Info &7)=============='
+    - '&2Ustaw wiadomosc automessage &c/plugins/G-Chat/config.yml'
+  2:
+    cast:
+    - '&7==============( &e#Info &7)=============='
+    - '&4Ustaw wiadomosc automessage &c/plugins/G-Chat/config.yml'
+  3:
+    cast:
+    - '&7==============( &d#Info &7)=============='
+    - '&eUstaw wiadomosc automessage &c/plugins/G-Chat/config.yml'
 #--------------------------------------------------------
 # BB.Cast.Enable - Włacza i Wyłacza komende /chat bb
 # BBCast pozwala na pisanie ogłoszeń co 5 min
 # Czas można zmienić w configu
 # True=Właczone False=Wyłączone
-BB.Cast.Enable: false
+BB.Cast.Enable: true
+#--------------------------------------------------------
+# BB.Cast.Time - Co ile czasu gracz moze uzyc komendy.
+# Możemy ustawić tylko liczby.
+# Liczby są podane w sekundach
+# Domyślnie jest 10s.
+BB.Cast.Time: 10
 #--------------------------------------------------------
 # BB.Cast.message - Pozwala dostosować wygląd Ogłoszeń
 # Zmienna: (nick) zostanie podmieniona na np. Kowalski
