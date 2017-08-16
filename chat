@@ -1,4 +1,4 @@
-#Dev 2.0#
+#Dev 2.1#
 #- - - - - - - - -[G-Chat]- - - - - - - - #----------------------------------#
 #→Autor: hiperk                           #→G-Chat w wersji v1.0             #
 #→komendy:                                #→Wymagania:                       #
@@ -46,6 +46,7 @@ on script load:
 	set {info::off::*} to yaml list "Chat.view.off" from file "plugins/G-Chat/config.yml"
 	set {info::reson::*} to yaml list "Chat.view.reson" from file "plugins/G-Chat/config.yml"
 	set {info::cc::*} to yaml list "Chat.view.cc" from file "plugins/G-Chat/config.yml"
+	set {gbbtime} to single value "BB.Cast.Time" get of "plugins/G-Chat/config.yml" parsed as integer
 	set {gchat::update} to yaml value "AutoUpdate.Enable" from "plugins/G-Chat/config.yml"
 on load:    
 	if {xver} isn't set:
@@ -55,7 +56,7 @@ on load:
 		delete {x2ver}                    
 		stop
 	if {gchat::update} is true:
-		download "https://aw.githubusercontent.com/hiperk/skript/master/chat" to "plugins/Skript/scripts/%script%.sk"            
+		download "https://raw.githubusercontent.com/hiperk/skript/master/chat" to "plugins/Skript/scripts/%script%.sk"            
 	set {x3ver} to {x2ver}
 	delete {x2ver}
 on script disable:
@@ -72,6 +73,7 @@ on script disable:
 	delete {info::reson::*}
 	delete {info::cc::*}
 	delete {xver}
+	delete {gbbtime}
 
 #----------------#
 #     →zmienne   #
@@ -81,13 +83,12 @@ variables:
 	{spam::%player%} = false
 	{chat::%player%} = 0
 	{Timercore} = 5
+	{gbbtime} = 10
 #----------------#
 #     →opcje     #
 #----------------#
 options:
 	tag: &f&l[&2G&f-&4CHAT&f&l]
-	msgtime: 1
-	timebb: 5 minutes
 #----------------#
 #  →Kod skryptu  #
 #----------------#
@@ -200,15 +201,15 @@ command /chat [<text>] [<text>]:
 							set {_bbtresc} to coloured {_bbmsg}
 							broadcast "%{_bbtresc}%"
 						else:
-							if difference between {bb::%player%::lastused} and now is less than {@timebb}:
-								send "{@tag} &cJeszcze nie mozesz uzywac %difference between {bb::%player%::lastused} and now%"
+							if {bbtime} > 0:
+								send "{@tag} &cKomendy bedziesz mogl uzyc za &e%{bbtime}% &csekund."
 							else:
 								set {_bbmsg} to {bbmsg}
 								replace all "(nick)" with "%player%" in {_bbmsg}
 								replace all "(tresc)" with "%colored arg 2%" in {_bbmsg}
 								set {_bbtresc} to coloured {_bbmsg}
 								broadcast "%{_bbtresc}%"
-								set {bb::%player%::lastused} to now
+								set {bbtime} to {gbbtime}
 					else:
 						send "{@tag} &eUzyj: &a/&echat bb &a<&eWiaodmosc&a>"
 				else:
@@ -262,21 +263,24 @@ every 1 seconds:
 	if {slowmode} is true:
 		loop all players:
 			remove 1 from {chat::%loop-player%}
-every {@msgtime} seconds:
+	if {bb::active} is true:
+		remove 1 from {bbtime}
 	if {AutoMSG::active} is true:
 		if {AutoMSGTime} < {Timercore}:
 			if {msgadds} is not set:
 				set {msgadds} to 1
 			loop 50 times:
-				set {_wiad.%loop-number%} to coloured single value "automsg.%loop-number%" get of "plugins/G-Chat/config.yml" parsed as text
+				set {_msg::%loop-number%::cast::*} to yaml list "automsg.%loop-number%.cast" from file "plugins/G-Chat/config.yml"
 			if {tag::active} is true:
 				broadcast "%{tagmsg}% %{_wiad.%{msgadds}%}%"
 				set {AutoMSGTime} to {AutoMSG::Time}
 			else:
-				broadcast "%{_wiad.%{msgadds}%}%"
-				set {AutoMSGTime} to {AutoMSG::Time}
-			add 1 to {msgadds}
-			if {_wiad.%{msgadds}%} is set:
+				loop all players:
+					loop {_msg::%{msgadds}%::cast::*}:
+						send "%loop-value-2%" to loop-player
+					set {AutoMSGTime} to {AutoMSG::Time}
+					add 1 to {msgadds}
+			if {_msg::%{msgadds}%::cast::*} is set:
 				stop
 			else:
 				set {msgadds} to 1
